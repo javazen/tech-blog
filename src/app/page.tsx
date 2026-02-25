@@ -1,3 +1,4 @@
+import RecentPosts from "@/components/home/RecentPosts";
 import ContainerLayout from "@/layouts/ContainerLayout";
 import Image from "next/image";
 import Link from "next/link";
@@ -43,12 +44,13 @@ export default function Home() {
               <Link href="/about" className="inline-flex items-center gap-2 px-7 py-3 rounded-full
                bg-secondary-background border border-white/10 text-gray-200 font-semibold hover:bg-white/10 transition-colors">
               Learn More
-              <LuArrowRight csize={15} />
+              <LuArrowRight size={15} />
               </Link>
             </div>
           </div>
         </div>
       </div>
+      <RecentPosts />
     </ContainerLayout>
   );
 }
