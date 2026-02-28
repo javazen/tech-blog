@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+// import "jodit/build/jodit.min.css"; // need to install jodit for this to work
 import "./globals.css";
 import Navbar from "@/components/general/navbar/Navbar";
 
