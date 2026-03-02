@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LuMenu, LuNotebookPen, LuSearch, LuX } from "react-icons/lu";
 import MobileNav from "./MobileNav";
 import { useState } from "react";
+import { useModalStore } from "@/store/useModalStore";
 
 export const navLinks = [
   {url: "/", label: "Home"},
@@ -12,6 +13,7 @@ export const navLinks = [
 ]
 
 export default function Navbar() {
+  const {openSignIn} = useModalStore();
   const [menuOpen, setMenuOpen] = useState(false);
   function handleMenu() {
     setMenuOpen(!menuOpen);
@@ -37,7 +39,7 @@ export default function Navbar() {
               <Link href={url}>{label}</Link>
             </li>
           ))}
-          <li className="bg-primary text-gray-200 px-3 lg:px-5 py-2 rounded-full cursor-pointer">
+          <li onClick={openSignIn} className="bg-primary text-gray-200 px-3 lg:px-5 py-2 rounded-full cursor-pointer">
             Login
           </li>
           <li className="cursor-pointer md:hidden z-80" onClick={handleMenu}>
