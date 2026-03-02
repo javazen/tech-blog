@@ -13,7 +13,7 @@ export const navLinks = [
 ]
 
 export default function Navbar() {
-  const {openSignIn} = useModalStore();
+  const {openSignIn, openSearch} = useModalStore();
   const [menuOpen, setMenuOpen] = useState(false);
   function handleMenu() {
     setMenuOpen(!menuOpen);
@@ -24,7 +24,7 @@ export default function Navbar() {
         <Logo />
         {/* links */}
         <ul className="flex items-center gap-4 md:gap-8 text-gray-400 font-semibold">
-          <li className="cursor-pointer flex items-center gap-1">
+          <li onClick={openSearch} className="cursor-pointer flex items-center gap-1">
             <LuSearch size={20} />
             <span className="hidden md:block">Search</span>
           </li>
