@@ -3,9 +3,15 @@ import { useModalStore } from "@/store/useModalStore";
 import Modal from "./Modal";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
 
 export default function SignInModal() {
   const { isSignInOpen, closeSignIn } = useModalStore();
+  
+  const signInWithGoogle = async () => {
+    await authClient.signIn.social({ provider: "google" });
+  };
+
   return (
     <Modal onClose={closeSignIn} isOpen={isSignInOpen}>
       <h2 className="text-xl font-semibold text-white mb-2">
@@ -18,6 +24,7 @@ export default function SignInModal() {
       <div className="space-y-4">
         {/* google */}
         <button
+          onClick={signInWithGoogle}
           className="w-full flex items-center justify-center gap-3
             py-3 rounded-full cursor-pointer
             bg-white text-black font-medium
