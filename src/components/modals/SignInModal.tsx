@@ -12,6 +12,10 @@ export default function SignInModal() {
     await authClient.signIn.social({ provider: "google" });
   };
 
+  const signInWithGithub = async () => {
+    await authClient.signIn.social({ provider: "github" });
+  };
+
   return (
     <Modal onClose={closeSignIn} isOpen={isSignInOpen}>
       <h2 className="text-xl font-semibold text-white mb-2">
@@ -36,6 +40,7 @@ export default function SignInModal() {
 
         {/* github */}
         <button
+          onClick={signInWithGithub}
           className="w-full flex items-center justify-center gap-3
             py-3 rounded-full cursor-pointer
             bg-white text-black font-medium
