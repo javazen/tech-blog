@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export default function ArticlesPage() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfinitePosts({ limit: 3 });
+    useInfinitePosts({ limit: 1 });
 
   if (status === "pending") {
     return (
@@ -76,6 +76,8 @@ export default function ArticlesPage() {
       {hasNextPage && (
         <div className='flex justify-center mt-10'>
           <button
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
             className=" px-8 py-3 rounded-full
             bg-secondary-background
             text-gray-300 text-sm font-medium
@@ -84,7 +86,7 @@ export default function ArticlesPage() {
             hover:text-white
             transition-all duration-300 cursor-pointer"
           >
-            Load more articles
+            {isFetchingNextPage ? "Loading..." : "Load more articles"}
           </button>
         </div>
 
