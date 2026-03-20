@@ -1,10 +1,34 @@
-import { posts } from '@/components/home/RecentPosts'
+"use client";
+import { useInfinitePosts } from '@/custom-hooks/usePost';
 import ContainerLayout from '@/layouts/ContainerLayout'
+import { Post } from '@/types/post';
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
 
 export default function ArticlesPage() {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfinitePosts({ limit: 3 });
+
+  if (status === "pending") {
+    return (
+      <ContainerLayout>
+        <h2 className="text-xl sm:text-2xl md:text-3xl text-white font-semibold">
+          Loading...
+        </h2>
+      </ContainerLayout>
+    )
+  }
+
+  if (status === "error") {
+    return (
+      <ContainerLayout>
+        <p className="text-gray-300">Failed to load articles</p>
+      </ContainerLayout>
+    )
+  }
+
+  const posts = data?.pages.flatMap((page) => page.posts) || [];
+
   return (
     <ContainerLayout>
       <div className='space-y-6'>
@@ -20,16 +44,18 @@ export default function ArticlesPage() {
             bg-[#0B0B0B]border border-white/10 transition-all duration-300
             hover:-translate-y-1 hover:border-white/20">
               {/* image */}
-              <div className="relative h-48 w-full overflow-hidden">
-                <Image src={post.image} alt={post.title}
-                  className="object-cover transition-transform duration-500 group-hover:scale-105" fill />
-                
-                <div className="absolute inset-0 bg-black/30"/> {/* overlay */}
-              </div>
+              {post.coverImageURL && (
+                <div className="relative h-48 w-full overflow-hidden">
+                  <Image src={post.coverImageURL} alt={post.title}
+                    className="object-cover transition-transform duration-500 group-hover:scale-105" fill />
+
+                  <div className="absolute inset-0 bg-black/30" />
+                </div>
+              )}
               {/* content */}
               <div className="p-5 space-y-3">
                 <time>
-                  <span className="text-xs text-gray-400">{post.date}</span>
+                  <span className="text-xs text-gray-400">{post.createdAt}</span>
                 </time>
                 <h3 className="text-semibold text-lg text-white leading-snug
                 group-hover:text-indigo-400 transition-colors">
@@ -47,19 +73,22 @@ export default function ArticlesPage() {
       </div>
 
       {/* pagination */}
-      <div className='flex justify-center mt-10'>
-        <button
-          className=" px-8 py-3 rounded-full
+      {hasNextPage && (
+        <div className='flex justify-center mt-10'>
+          <button
+            className=" px-8 py-3 rounded-full
             bg-secondary-background
             text-gray-300 text-sm font-medium
             border border-white/10
             hover:border-white/20
             hover:text-white
             transition-all duration-300 cursor-pointer"
-        >
-          Load more articles
-        </button>
-      </div>
+          >
+            Load more articles
+          </button>
+        </div>
+
+      )}
 
     </ContainerLayout>
   )
